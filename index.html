@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スポット温度計 - 温度・湿度をピンポイントでチェック</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #111827;
+            color: #fff;
+        }
+        .slider {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+        }
+        .slider-dots {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.5);
+            cursor: pointer;
+        }
+        .dot.active {
+            background-color: white;
+        }
+        @media (max-width: 640px) {
+            .slide img {
+                max-width: 80%;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex flex-col">
+        <header class="container mx-auto px-4 py-6 sm:py-8">
+            <h1 class="text-3xl sm:text-4xl font-bold mb-4">スポット温度計</h1>
+        </header>
+
+        <main class="container mx-auto px-4 flex-grow">
+            <div class="flex flex-col lg:flex-row gap-8 items-center mb-12">
+                <div class="w-full lg:w-1/2">
+                    <div class="text-base sm:text-lg space-y-4 mb-8">
+                        <p>スポット温度計は、屋外の温度・湿度・風速・日照時間をピンポイントで確認できるアプリ</p>
+                        <p>雨雲レーダーや衛星画像をマップ上で表示し、警報・注意報もリアルタイムに把握</p>
+                        <p>よく利用する3地点まで登録でき、直感的な操作で必要な情報だけを素早くチェック</p>
+                        <p>通勤・通学、外出、旅行時に最適</p>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center sm:justify-start">
+                        <a href="https://apps.apple.com/app/id6587564866" target="_blank" rel="noopener" class="inline-block">
+                            <img src="assets/Download_on_the_App_Store_Badge_JP_RGB_blk_100317.svg" alt="App Store" class="h-12">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=tam.kod.spotemp" target="_blank" rel="noopener" class="inline-block">
+                            <img src="assets/google-play-badge.png" alt="Google Play" class="h-12">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="slider w-full lg:w-1/2">
+                    <div class="slides">
+                        <div class="slide flex justify-center">
+                            <img src="assets/1284_2778_1.png" alt="スクリーンショット1" class="max-h-96 sm:max-h-none">
+                        </div>
+                        <div class="slide flex justify-center">
+                            <img src="assets/1284_2778_2.png" alt="スクリーンショット2" class="max-h-96 sm:max-h-none">
+                        </div>
+                    </div>
+                    <div class="slider-dots"></div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="container mx-auto px-4 py-6 text-sm text-gray-400">
+            <div class="flex gap-4 justify-center">
+                <a href="https://spo-temp-i.github.io/tou.html" class="hover:text-white">利用規約</a>
+                <a href="https://spo-temp-i.github.io/pp.html" class="hover:text-white">プライバシーポリシー</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const slides = document.querySelector('.slides');
+        const dots = document.querySelector('.slider-dots');
+        let currentSlide = 0;
+        const totalSlides = 2;
+
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dots.appendChild(dot);
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            goToSlide(currentSlide);
+        }, 5000);
+    </script>
+</body>
+</html>
